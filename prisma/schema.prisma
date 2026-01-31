@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User{
+  user_id Int @id @default(autoincrement())
+  user_name String
+  user_email String
+  user_pass String
+
+
+  task_id Int
+  task Task @relation(fields: [task_id], references: [task_id])
+
+  cate_id Int
+  category Category @relation(fields: [cate_id], references: [cate_id])
+
+}
+
+model Task{
+  task_id Int @id @default(autoincrement())
+  task_name String
+  task_priority String
+  task_status String
+
+  cate_id Int
+  category Category @relation(fields: [cate_id], references: [cate_id])
+
+  day_id Int
+  dayofweek DayOfWeek @relation(fields: [day_id], references: [day_id])
+
+  user User[]
+}
+
+model Category{
+  cate_id Int @id @default(autoincrement())
+  cate_name String
+
+  task Task[]
+
+  user User[]
+}
+
+model DayOfWeek{
+ day_id Int @id @default(autoincrement())
+ day_name String
+
+ task Task[]
+}
