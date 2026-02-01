@@ -48,10 +48,9 @@ export default class TaskService {
    }
 
    async listUserTask(user_id: number): Promise<TaskIncludeDto[]> {
-      
       const finded: User | null = await this.userRepo.findUserById(user_id);
 
-      if(!finded){
+      if (!finded) {
          throw new AppError("Usuario não encontrado", 404);
       }
 
@@ -110,10 +109,16 @@ export default class TaskService {
          throw new AppError("Tarefa não encontrada", 404);
       }
 
-      const findedUser: User | null = await this.userRepo.findUserById(data.user_id);
+      const findedUser: User | null = await this.userRepo.findUserById(
+         data.user_id,
+      );
 
-      if(!findedUser){
+      if (!findedUser) {
          throw new AppError("Usuario não encontrado", 404);
+      }
+
+      if (Object.values(data).every((v) => v === undefined)) {
+         throw new AppError("Informe pelo menos um campo para alterar", 400);
       }
 
       const updated: Task = await this.taskRepo.updateTask(data);
