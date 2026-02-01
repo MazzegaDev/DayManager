@@ -1,7 +1,26 @@
 import { Prisma } from "../generated/prisma/client";
 
-export type TaskInputDto = Omit<Prisma.TaskCreateInput, "task_id">;
+export type TaskStatus = "PENDING" | "DONE";
 
-export type TaskUpdateDto = {
+export interface TaskInputDto {
+   task_name: string;
+   task_priority: string;
+   task_status?: TaskStatus;
+   cate_id: number;
+   day_id: number;
+   user_id: number;
+}
+
+export interface TaskUpdateDto {
    task_id: number;
-} & Partial<Omit<Prisma.TaskUpdateInput, "task_id">>;
+   task_name?: string;
+   task_priority?: string;
+   task_status?: TaskStatus;
+   cate_id?: number;
+   day_id?: number;
+   user_id: number;
+}
+
+export type TaskIncludeDto = Prisma.TaskGetPayload<{
+   include: { category: true; dayofweek: true; user: true };
+}>;

@@ -19,13 +19,9 @@ model User{
   user_email String @unique
   user_pass String
 
-
-  task_id Int
-  task Task @relation(fields: [task_id], references: [task_id])
-
-  cate_id Int
-  category Category @relation(fields: [cate_id], references: [cate_id])
-
+ 
+  category Category[]
+  task Task[]
 }
 
 model Task{
@@ -40,7 +36,9 @@ model Task{
   day_id Int
   dayofweek DayOfWeek @relation(fields: [day_id], references: [day_id])
 
-  user User[]
+  
+  user_id Int
+  user User @relation(fields: [user_id], references: [user_id])
 }
 
 model Category{
@@ -48,8 +46,9 @@ model Category{
   cate_name String
 
   task Task[]
-
-  user User[]
+  user_id Int
+  user User @relation(fields: [user_id], references: [user_id])
+  
 }
 
 model DayOfWeek{
