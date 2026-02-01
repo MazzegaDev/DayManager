@@ -8,7 +8,7 @@ export interface TaskInputDto {
    task_status?: TaskStatus;
    cate_id: number;
    day_id: number;
-   user_id: number;
+   user_id?: number;
 }
 
 export interface TaskUpdateDto {
