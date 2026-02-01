@@ -1,7 +1,13 @@
-import { Prisma } from "../generated/prisma/client";
 
-export type UserInputDto = Omit<Prisma.UserCreateInput, "user_id">;
+export interface UserInputDto {
+   user_name: string;
+   user_email: string;
+   user_pass: string;
+}
 
-export type UserUpdateDto = { user_id: number } & Partial<
-   Omit<Prisma.UserUpdateInput, "user_id">
->;
+export interface UserUpdateDto {
+   user_id: number;
+   user_name?: string;
+   user_email?: string;
+   user_pass?: string;
+}
