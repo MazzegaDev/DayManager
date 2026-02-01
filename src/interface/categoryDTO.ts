@@ -1,7 +1,10 @@
-import { Prisma } from "../generated/prisma/client";
+export interface CategoryInputDto{
+   cate_name: string;
+   user_id: number;
+}
 
-export type CategoryInputDto = Omit<Prisma.CategoryCreateInput, "cate_id">;
-
-export type CategoryUpdateDto = {
+export interface CategoryUpdateDto{
    cate_id: number;
-} & Partial<Omit<Prisma.CategoryUpdateInput, "cate_id">>;
+   cate_name?: string;
+   user_id: number;
+}
