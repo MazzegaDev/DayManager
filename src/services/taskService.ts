@@ -110,6 +110,12 @@ export default class TaskService {
          throw new AppError("Tarefa não encontrada", 404);
       }
 
+      const findedUser: User | null = await this.userRepo.findUserById(data.user_id);
+
+      if(!findedUser){
+         throw new AppError("Usuario não encontrado", 404);
+      }
+
       const updated: Task = await this.taskRepo.updateTask(data);
 
       if (!updated) {
