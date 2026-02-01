@@ -63,6 +63,17 @@ export default class TaskRepository {
       });
    }
 
+   async findTaskById(task_id: number): Promise<TaskIncludeDto | null>{
+      return await this.prisma.task.findUnique({
+         where: {task_id: task_id},
+         include: {
+            category: true,
+            dayofweek: true,
+            user: true,
+         }
+      })
+   }
+
    async updateTask(data: TaskUpdateDto): Promise<Task> {
       return await this.prisma.task.update({
          where: { task_id: data.task_id },
