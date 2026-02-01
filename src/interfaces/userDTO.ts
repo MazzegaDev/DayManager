@@ -1,4 +1,3 @@
-
 export interface UserInputDto {
    user_name: string;
    user_email: string;
@@ -10,4 +9,9 @@ export interface UserUpdateDto {
    user_name?: string;
    user_email?: string;
    user_pass?: string;
+}
+
+export interface UserLoginDto {
+   user_email: string;
+   user_pass: string;
 }
