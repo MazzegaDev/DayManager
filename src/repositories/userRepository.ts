@@ -29,4 +29,10 @@ export default class UserRepository {
          where: { user_email: user_email },
       });
    }
+
+   async findUserById(user_id: number): Promise<User | null> {
+      return await this.prisma.user.findUnique({
+         where: { user_id: user_id },
+      });
+   }
 }

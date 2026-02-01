@@ -1,4 +1,4 @@
-import { Task } from "../generated/prisma/client";
+import { Task, User } from "../generated/prisma/client";
 import {
    TaskIncludeDto,
    TaskInputDto,
@@ -6,12 +6,15 @@ import {
 } from "../interfaces/taskDTO";
 import AppError from "../errors/AppError";
 import TaskRepository from "../repositories/taskRepository";
+import UserRepository from "../repositories/userRepository";
 
 export default class TaskService {
    readonly taskRepo: TaskRepository;
+   readonly userRepo: UserRepository;
 
    constructor() {
       this.taskRepo = new TaskRepository();
+      this.userRepo = new UserRepository();
    }
 
    async createTask(data: TaskInputDto): Promise<Task> {
@@ -44,10 +47,15 @@ export default class TaskService {
       return created;
    }
 
-   async listUserTask(user_id: string): Promise<TaskIncludeDto[]> {
-      const id = this.validateId(user_id);
+   async listUserTask(user_id: number): Promise<TaskIncludeDto[]> {
+      
+      const finded: User | null = await this.userRepo.findUserById(user_id);
 
-      let list: TaskIncludeDto[] = await this.taskRepo.listUserTask(id);
+      if(!finded){
+         throw new AppError("Usuario não encontrado", 404);
+      }
+
+      let list: TaskIncludeDto[] = await this.taskRepo.listUserTask(user_id);
 
       if (list.length === 0) {
          throw new AppError("Esse usuario ainda não tem nenhuma tarefa", 404);
@@ -56,7 +64,7 @@ export default class TaskService {
       return list;
    }
 
-   async listPerCategory(cate_id: string): Promise<TaskIncludeDto[]> {
+   async listPerCategory(cate_id: string | number): Promise<TaskIncludeDto[]> {
       const id = this.validateId(cate_id);
 
       let list: TaskIncludeDto[] = await this.taskRepo.listPerCategory(id);
@@ -133,7 +141,11 @@ export default class TaskService {
       return deleted;
    }
 
-   validateId(params: string): number {
+   validateId(params: string | number): number {
+      if (typeof params === "number") {
+         return params;
+      }
+
       const id = parseInt(params);
 
       if (isNaN(id)) {

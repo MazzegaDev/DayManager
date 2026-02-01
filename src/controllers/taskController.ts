@@ -5,7 +5,10 @@ import {
    TaskIncludeDto,
    TaskInputDto,
    TaskUpdateDto,
+   TaskParams,
 } from "../interfaces/taskDTO";
+import { CategoryParams } from "../interfaces/categoryDTO";
+import { dayParams } from "../interfaces/dayDTO";
 
 export default class TaskController {
    readonly taskServ: TaskService;
@@ -16,7 +19,7 @@ export default class TaskController {
 
    async createTask(req: Request, res: Response): Promise<Response> {
       try {
-         const {
+         let {
             task_name,
             task_priority,
             day_id,
@@ -24,8 +27,8 @@ export default class TaskController {
             task_status,
             user_id,
          } = req.body as TaskInputDto;
-
-         // user_id = req.user.user_id;
+         const id = req.user.user_id;
+         user_id = id;
 
          const obj: TaskInputDto = {
             task_name,
@@ -54,10 +57,123 @@ export default class TaskController {
    async listUserTasks(req: Request, res: Response): Promise<Response> {
       try {
          const user_id = req.user.user_id;
-         const list: TaskIncludeDto = await this.taskServ.listUserTask(user_id);
+         const list: TaskIncludeDto[] =
+            await this.taskServ.listUserTask(user_id);
 
          return res.status(200).json(list);
+      } catch (error: any) {
+         console.log(error);
+         if (error.statusCode) {
+            return res.status(error.statusCode).json(error.message);
+         }
 
+         return res.status(500).json({ msg: "Erro interno" });
+      }
+   }
+
+   async listPerCategory(
+      req: Request<CategoryParams>,
+      res: Response,
+   ): Promise<Response> {
+      try {
+         const { cate_id } = req.params;
+         const list: TaskIncludeDto[] =
+            await this.taskServ.listPerCategory(cate_id);
+
+         return res.status(200).json(list);
+      } catch (error: any) {
+         console.log(error);
+         if (error.statusCode) {
+            return res.status(error.statusCode).json(error.message);
+         }
+
+         return res.status(500).json({ msg: "Erro interno" });
+      }
+   }
+
+   async listPerDay(req: Request<dayParams>, res: Response): Promise<Response> {
+      try {
+         const { day_id } = req.params;
+         const list: TaskIncludeDto[] = await this.taskServ.listPerDay(day_id);
+
+         return res.status(200).json(list);
+      } catch (error: any) {
+         console.log(error);
+         if (error.statusCode) {
+            return res.status(error.statusCode).json(error.message);
+         }
+
+         return res.status(500).json({ msg: "Erro interno" });
+      }
+   }
+
+   async findTaskById(
+      req: Request<TaskParams>,
+      res: Response,
+   ): Promise<Response> {
+      try {
+         const { task_id } = req.params;
+         const list: TaskIncludeDto = await this.taskServ.findTaskById(task_id);
+
+         return res.status(200).json(list);
+      } catch (error: any) {
+         console.log(error);
+         if (error.statusCode) {
+            return res.status(error.statusCode).json(error.message);
+         }
+
+         return res.status(500).json({ msg: "Erro interno" });
+      }
+   }
+
+   async updateTask(req: Request, res: Response): Promise<Response> {
+      try {
+         let {
+            task_id,
+            task_name,
+            task_priority,
+            day_id,
+            cate_id,
+            task_status,
+            user_id,
+         } = req.body as TaskUpdateDto;
+         const id = req.user.user_id;
+         user_id = id;
+
+         const obj: TaskUpdateDto = {
+            task_id,
+            task_name,
+            task_status,
+            task_priority,
+            user_id,
+            cate_id,
+            day_id,
+         };
+
+         const created: Task = await this.taskServ.updateTask(obj);
+
+         return res
+            .status(201)
+            .json({ msg: "Nova tarefa criada!", data: created });
+      } catch (error: any) {
+         console.log(error);
+         if (error.statusCode) {
+            return res.status(error.statusCode).json(error.message);
+         }
+
+         return res.status(500).json({ msg: "Erro interno" });
+      }
+   }
+
+   async deleteTask(
+      req: Request<TaskParams>,
+      res: Response,
+   ): Promise<Response> {
+      try {
+         const { task_id } = req.params;
+         const list: Task = await this.taskServ.deleteTask(task_id);
+
+         return res.status(200).json(list);
       } catch (error: any) {
          console.log(error);
          if (error.statusCode) {

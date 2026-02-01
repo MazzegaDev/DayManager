@@ -21,6 +21,11 @@ export interface TaskUpdateDto {
    user_id: number;
 }
 
+export interface TaskParams {
+   task_id: string;
+}
+
+
 export type TaskIncludeDto = Prisma.TaskGetPayload<{
    include: { category: true; dayofweek: true; user: true };
 }>;
