@@ -5,7 +5,7 @@ import {
    TaskUpdateDto,
    TaskIncludeDto,
    TaskStatus,
-} from "../interface/taskDTO";
+} from "../interfaces/taskDTO";
 
 export default class TaskRepository {
    readonly prisma = Prisma;
