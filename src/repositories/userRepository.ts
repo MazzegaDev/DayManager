@@ -19,7 +19,7 @@ export default class UserRepository {
       return await this.prisma.user.findMany();
    }
 
-   async findById(user_id: number): Promise<User | null> {
+   async findUserById(user_id: number): Promise<User | null> {
       return await this.prisma.user.findUnique({
          where: { user_id: user_id },
       });
@@ -67,9 +67,5 @@ export default class UserRepository {
       });
    }
 
-   async findUserById(user_id: number): Promise<User | null> {
-      return await this.prisma.user.findUnique({
-         where: { user_id: user_id },
-      });
-   }
+
 }
