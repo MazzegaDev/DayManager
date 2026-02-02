@@ -18,3 +18,7 @@ export interface UserLoginDto {
 export interface UserParams {
    user_id: string;
 }
+
+export interface UserEmailParams{
+   user_email: string;
+}
