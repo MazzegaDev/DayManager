@@ -154,7 +154,7 @@ export default class TaskController {
 
          return res
             .status(201)
-            .json({ msg: "Nova tarefa criada!", data: created });
+            .json({ msg: "Dados da tarefa alterados!", data: created });
       } catch (error: any) {
          console.log(error);
          if (error.statusCode) {
