@@ -22,7 +22,7 @@ export default class CategoryRepository {
       });
    }
 
-   async listById(cate_id: number): Promise<Category | null> {
+   async findById(cate_id: number): Promise<Category | null> {
       return await this.prisma.category.findUnique({
          where: { cate_id: cate_id },
       });
