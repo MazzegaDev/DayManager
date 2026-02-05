@@ -11,6 +11,16 @@ export interface TaskInputDto {
    user_id?: number;
 }
 
+
+export interface TaskReqParamsCreateDto {
+   task_name: string;
+   task_priority: string;
+   task_status?: TaskStatus;
+   cate_id: number;
+   day_id: number;
+}
+
+
 export interface TaskUpdateDto {
    task_id: number;
    task_name?: string;
@@ -19,6 +29,16 @@ export interface TaskUpdateDto {
    cate_id?: number;
    day_id?: number;
    user_id: number;
+}
+
+export interface TaskReqParamsUpdateDto {
+   task_id: number;
+   task_name?: string;
+   task_priority?: string;
+   task_status?: TaskStatus;
+   cate_id?: number;
+   day_id?: number;
+
 }
 
 export interface TaskParams {

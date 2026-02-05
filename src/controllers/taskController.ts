@@ -6,6 +6,8 @@ import {
    TaskInputDto,
    TaskUpdateDto,
    TaskParams,
+   TaskReqParamsCreateDto,
+   TaskReqParamsUpdateDto,
 } from "../interfaces/taskDTO";
 import { CategoryParams } from "../interfaces/categoryDTO";
 import { dayParams } from "../interfaces/dayDTO";
@@ -19,21 +21,15 @@ export default class TaskController {
 
    async createTask(req: Request, res: Response): Promise<Response> {
       try {
-         let {
-            task_name,
-            task_priority,
-            day_id,
-            cate_id,
-            task_status,
-            user_id = req.user.user_id,
-         } = req.body as TaskInputDto;
-         
+         let { task_name, task_priority, day_id, cate_id, task_status } =
+            req.body as TaskReqParamsCreateDto;
 
+         const id = req.user.user_id;
          const obj: TaskInputDto = {
             task_name,
             task_status,
             task_priority,
-            user_id,
+            user_id: id,
             cate_id,
             day_id,
          };
@@ -134,17 +130,16 @@ export default class TaskController {
             day_id,
             cate_id,
             task_status,
-            user_id = req.user.user_id,
-         } = req.body as TaskUpdateDto;
-        
-      
+         } = req.body as TaskReqParamsUpdateDto;
+
+         const id = req.user.user_id;
 
          const obj: TaskUpdateDto = {
             task_id,
             task_name,
             task_status,
             task_priority,
-            user_id,
+            user_id: id,
             cate_id,
             day_id,
          };
