@@ -21,13 +21,12 @@ export default class TaskController {
 
    async createTask(req: Request, res: Response): Promise<Response> {
       try {
-         let { task_name, task_priority, cate_id, task_status, task_day } =
+         let { task_name, task_priority, cate_id, task_day } =
             req.body as TaskReqParamsCreateDto;
 
          const user_id = req.user.user_id;
          const obj: TaskInputDto = {
             task_name,
-            task_status,
             task_priority,
             task_day,
             user_id,

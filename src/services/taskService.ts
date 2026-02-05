@@ -25,7 +25,6 @@ export default class TaskService {
       let {
          task_name,
          task_priority,
-         task_status,
          user_id,
          cate_id,
          task_day,
@@ -51,10 +50,8 @@ export default class TaskService {
       if (!task_day) {
          throw new AppError("Informe o dia da tarefa", 400);
       }
-      if (!task_status) {
-         task_status = "PENDING";
-      }
 
+      const task_status = "Pendente";
       const parsedData = this.dateConverter(task_day);
       const obj: TaskCreateDateDto = {
          task_name,

@@ -1,11 +1,10 @@
 import { Prisma } from "../generated/prisma/client";
 
-export type TaskStatus = "PENDING" | "DONE";
+export type TaskStatus = "Pendente" | "Finalizado";
 
 export interface TaskInputDto {
    task_name: string;
    task_priority: string;
-   task_status?: TaskStatus;
    task_day: string;
    cate_id: number;
    user_id: number;
