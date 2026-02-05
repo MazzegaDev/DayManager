@@ -3,7 +3,7 @@ import { Prisma } from "../database/database";
 import { UserInputDto, UserUpdateDto } from "../interfaces/userDTO";
 
 export default class UserRepository {
-   readonly prisma = Prisma;
+   private readonly prisma = Prisma;
 
    async createUser(data: UserInputDto): Promise<User> {
       return await this.prisma.user.create({
@@ -66,6 +66,4 @@ export default class UserRepository {
          where: { user_email: user_email },
       });
    }
-
-
 }

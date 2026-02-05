@@ -5,7 +5,7 @@ import AuthService from "../services/authService";
 import AppError from "../errors/AppError";
 
 export default class AuthController {
-   readonly authServ: AuthService;
+   private readonly authServ: AuthService;
 
    constructor() {
       this.authServ = new AuthService();

@@ -8,8 +8,8 @@ import {
 } from "../interfaces/taskDTO";
 
 export default class TaskRepository {
-   readonly prisma = Prisma;
-   readonly defaultStatus: TaskStatus = "PENDING";
+   private readonly prisma = Prisma;
+   private readonly defaultStatus: TaskStatus = "Pendente";
 
    async createTask(data: TaskCreateDateDto): Promise<Task> {
       return await this.prisma.task.create({
@@ -58,15 +58,15 @@ export default class TaskRepository {
       });
    }
 
-   async findTaskById(task_id: number): Promise<TaskIncludeDto | null>{
+   async findTaskById(task_id: number): Promise<TaskIncludeDto | null> {
       return await this.prisma.task.findUnique({
-         where: {task_id: task_id},
+         where: { task_id: task_id },
          include: {
             category: true,
 
             user: true,
-         }
-      })
+         },
+      });
    }
 
    async updateTask(data: TaskUpdateDateDto): Promise<Task> {

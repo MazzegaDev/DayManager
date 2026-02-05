@@ -3,7 +3,7 @@ import { Prisma } from "../database/database";
 import { CategoryInputDto, CategoryUpdateDto } from "../interfaces/categoryDTO";
 
 export default class CategoryRepository {
-   readonly prisma = Prisma;
+   private readonly prisma = Prisma;
 
    async createCategory(data: CategoryInputDto): Promise<Category> {
       return await this.prisma.category.create({

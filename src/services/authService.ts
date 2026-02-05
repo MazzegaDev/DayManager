@@ -6,7 +6,7 @@ import AppError from "../errors/AppError";
 import UserRepository from "../repositories/userRepository";
 
 export default class AuthService {
-   readonly userRepo: UserRepository;
+   private readonly userRepo: UserRepository;
 
    constructor() {
       this.userRepo = new UserRepository();
@@ -37,8 +37,8 @@ export default class AuthService {
          user_id,
          user_name,
          user_email,
-         token
-      }
+         token,
+      };
 
       return payload;
    }

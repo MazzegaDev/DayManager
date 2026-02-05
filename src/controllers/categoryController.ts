@@ -10,7 +10,7 @@ import {
 import CategoryService from "../services/categoryService";
 
 export default class CategoryController {
-   private cateServ: CategoryService;
+   private readonly cateServ: CategoryService;
 
    constructor() {
       this.cateServ = new CategoryService();

@@ -13,7 +13,7 @@ import { CategoryParams } from "../interfaces/categoryDTO";
 import { dayParams } from "../interfaces/dayDTO";
 
 export default class TaskController {
-   readonly taskServ: TaskService;
+   private readonly taskServ: TaskService;
 
    constructor() {
       this.taskServ = new TaskService();

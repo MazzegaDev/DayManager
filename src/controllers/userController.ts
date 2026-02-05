@@ -9,7 +9,7 @@ import { User } from "../generated/prisma/client";
 import UserService from "../services/userService";
 
 export default class UserController {
-   readonly userServ: UserService;
+   private readonly userServ: UserService;
 
    constructor() {
       this.userServ = new UserService();
