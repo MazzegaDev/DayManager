@@ -101,27 +101,48 @@ export default class TaskService {
    }
 
    async updateTask(data: TaskUpdateDto): Promise<Task> {
-      const finded: TaskIncludeDto | null = await this.taskRepo.findTaskById(
-         data.task_id,
-      );
+      const {
+         task_id,
+         user_id,
+         cate_id,
+         day_id,
+         task_name,
+         task_priority,
+         task_status,
+      } = data;
+
+      const finded: TaskIncludeDto | null =
+         await this.taskRepo.findTaskById(task_id);
 
       if (!finded) {
          throw new AppError("Tarefa não encontrada", 404);
       }
 
-      const findedUser: User | null = await this.userRepo.findUserById(
-         data.user_id,
-      );
+      const findedUser: User | null = await this.userRepo.findUserById(user_id);
 
       if (!findedUser) {
          throw new AppError("Usuario não encontrado", 404);
       }
 
-      if (Object.values(data).every((v) => v === undefined)) {
-         throw new AppError("Informe pelo menos um campo para alterar", 400);
+      if (task_name != undefined && !task_name.trim()) {
+         throw new AppError("Informe um nome valido", 400);
       }
 
-      const updated: Task = await this.taskRepo.updateTask(data);
+      if (task_priority != undefined && !task_priority.trim()) {
+         throw new AppError("Informe uma prioriade valida", 400);
+      }
+
+      const obj: TaskUpdateDto = {
+         task_id,
+         user_id,
+         cate_id,
+         day_id,
+         task_name,
+         task_priority,
+         task_status,
+      };
+
+      const updated: Task = await this.taskRepo.updateTask(obj);
 
       if (!updated) {
          throw new AppError(

@@ -25,10 +25,9 @@ export default class TaskController {
             day_id,
             cate_id,
             task_status,
-            user_id,
+            user_id = req.user.user_id,
          } = req.body as TaskInputDto;
-         const id = req.user.user_id;
-         user_id = id;
+         
 
          const obj: TaskInputDto = {
             task_name,
@@ -135,10 +134,10 @@ export default class TaskController {
             day_id,
             cate_id,
             task_status,
-            user_id,
+            user_id = req.user.user_id,
          } = req.body as TaskUpdateDto;
-         const id = req.user.user_id;
-         user_id = id;
+        
+      
 
          const obj: TaskUpdateDto = {
             task_id,
