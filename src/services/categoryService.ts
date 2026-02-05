@@ -82,7 +82,7 @@ export default class CategoryService {
          throw new AppError("Usuario não encontrado", 404);
       }
 
-      if (cate_name != undefined && cate_name.trim()) {
+      if (cate_name != undefined && !cate_name.trim()) {
          throw new AppError("Informe um nome valido", 400);
       }
 
