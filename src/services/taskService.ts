@@ -1,41 +1,68 @@
-import { Task, User } from "../generated/prisma/client";
+import { Category, Task, User } from "../generated/prisma/client";
 import {
+   TaskCreateDateDto,
    TaskIncludeDto,
    TaskInputDto,
    TaskUpdateDto,
+   TaskUpdateDateDto,
 } from "../interfaces/taskDTO";
 import AppError from "../errors/AppError";
 import TaskRepository from "../repositories/taskRepository";
 import UserRepository from "../repositories/userRepository";
+import CategoryRepository from "../repositories/categoryRepository";
 
 export default class TaskService {
-   readonly taskRepo: TaskRepository;
-   readonly userRepo: UserRepository;
-
+   private taskRepo: TaskRepository;
+   private userRepo: UserRepository;
+   private cateRepo: CategoryRepository;
    constructor() {
       this.taskRepo = new TaskRepository();
       this.userRepo = new UserRepository();
+      this.cateRepo = new CategoryRepository();
    }
 
    async createTask(data: TaskInputDto): Promise<Task> {
-      let { task_name, task_priority, task_status, user_id, cate_id, day_id } =
-         data;
-
-      if (!task_name || task_priority || !user_id || !cate_id || !day_id) {
-         throw new AppError("Informe dados validos", 400);
-      }
-
-      if (!task_status) {
-         task_status = "PENDING";
-      }
-
-      const obj: TaskInputDto = {
+      let {
          task_name,
          task_priority,
          task_status,
          user_id,
          cate_id,
-         day_id,
+         task_day,
+      } = data;
+
+      const findedCategory: Category | null =
+         await this.cateRepo.findById(cate_id);
+      if (!findedCategory) {
+         throw new AppError("Categoria não encontrada", 404);
+      }
+
+      const findedUser: User | null = await this.userRepo.findUserById(user_id);
+      if (!findedUser) {
+         throw new AppError("Usuario não encontrado", 404);
+      }
+
+      if (!task_name.trim()) {
+         throw new AppError("Nome da tarefa invalido", 400);
+      }
+      if (!task_priority.trim()) {
+         throw new AppError("Prioridade da tarefa invalida", 400);
+      }
+      if (!task_day) {
+         throw new AppError("Informe o dia da tarefa", 400);
+      }
+      if (!task_status) {
+         task_status = "PENDING";
+      }
+
+      const parsedData = this.dateConverter(task_day);
+      const obj: TaskCreateDateDto = {
+         task_name,
+         task_priority,
+         task_status,
+         task_day: parsedData,
+         user_id,
+         cate_id,
       };
 
       const created: Task = await this.taskRepo.createTask(obj);
@@ -101,22 +128,17 @@ export default class TaskService {
    }
 
    async updateTask(data: TaskUpdateDto): Promise<Task> {
-      const {
+      let {
          task_id,
-         user_id,
-         cate_id,
-         day_id,
          task_name,
          task_priority,
          task_status,
+         user_id,
+         cate_id,
+         task_day,
       } = data;
 
-      const finded: TaskIncludeDto | null =
-         await this.taskRepo.findTaskById(task_id);
-
-      if (!finded) {
-         throw new AppError("Tarefa não encontrada", 404);
-      }
+      const findedTask: Task | null = await this.taskRepo.findTaskById(task_id);
 
       const findedUser: User | null = await this.userRepo.findUserById(user_id);
 
@@ -124,21 +146,34 @@ export default class TaskService {
          throw new AppError("Usuario não encontrado", 404);
       }
 
+      if (!findedTask) {
+         throw new AppError("Tarefa não encontrada", 404);
+      }
+
       if (task_name != undefined && !task_name.trim()) {
-         throw new AppError("Informe um nome valido", 400);
+         throw new AppError("Nome da tarefa invalido", 400);
       }
 
       if (task_priority != undefined && !task_priority.trim()) {
-         throw new AppError("Informe uma prioriade valida", 400);
+         throw new AppError("Prioridade da tarefa invalida", 400);
       }
 
-      const obj: TaskUpdateDto = {
+      if (task_status != undefined && !task_status.trim()) {
+         throw new AppError("Status da tarefa invalido", 400);
+      }
+
+      let parsedDate: Date | undefined;
+      if (task_day != undefined) {
+         parsedDate = this.dateConverter(task_day);
+      }
+
+      const obj: TaskUpdateDateDto = {
          task_id,
          user_id,
          cate_id,
-         day_id,
          task_name,
          task_priority,
+         task_day: parsedDate,
          task_status,
       };
 
@@ -185,5 +220,15 @@ export default class TaskService {
       }
 
       return id;
+   }
+
+   dateConverter(date: string): Date {
+      const parsedData = new Date(date);
+
+      if (isNaN(parsedData.getTime())) {
+         throw new AppError("Data da tarefa inválida", 400);
+      }
+
+      return parsedData;
    }
 }

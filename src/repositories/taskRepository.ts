@@ -1,27 +1,25 @@
 import { Prisma } from "../database/database";
 import { Task } from "../generated/prisma/client";
 import {
-   TaskInputDto,
-   TaskUpdateDto,
    TaskIncludeDto,
    TaskStatus,
+   TaskCreateDateDto,
+   TaskUpdateDateDto,
 } from "../interfaces/taskDTO";
 
 export default class TaskRepository {
    readonly prisma = Prisma;
    readonly defaultStatus: TaskStatus = "PENDING";
 
-   async createTask(data: TaskInputDto): Promise<Task> {
+   async createTask(data: TaskCreateDateDto): Promise<Task> {
       return await this.prisma.task.create({
          data: {
             task_name: data.task_name,
             task_priority: data.task_priority,
             task_status: data.task_status ?? this.defaultStatus,
+            task_day: data.task_day,
             category: {
                connect: { cate_id: data.cate_id },
-            },
-            dayofweek: {
-               connect: { day_id: data.day_id },
             },
             user: {
                connect: { user_id: data.user_id },
@@ -35,7 +33,6 @@ export default class TaskRepository {
          where: { user_id: user_id },
          include: {
             category: true,
-            dayofweek: true,
             user: true,
          },
       });
@@ -46,18 +43,16 @@ export default class TaskRepository {
          where: { cate_id: cate_id },
          include: {
             category: true,
-            dayofweek: true,
             user: true,
          },
       });
    }
 
-   async listPerDay(day_id: number): Promise<TaskIncludeDto[]> {
+   async listPerDay(task_day: Date): Promise<TaskIncludeDto[]> {
       return await this.prisma.task.findMany({
-         where: { day_id: day_id },
+         where: { task_day: task_day },
          include: {
             category: true,
-            dayofweek: true,
             user: true,
          },
       });
@@ -68,24 +63,22 @@ export default class TaskRepository {
          where: {task_id: task_id},
          include: {
             category: true,
-            dayofweek: true,
+
             user: true,
          }
       })
    }
 
-   async updateTask(data: TaskUpdateDto): Promise<Task> {
+   async updateTask(data: TaskUpdateDateDto): Promise<Task> {
       return await this.prisma.task.update({
          where: { task_id: data.task_id },
          data: {
             task_name: data.task_name,
             task_priority: data.task_priority,
             task_status: data.task_status ?? this.defaultStatus,
+            task_day: data.task_day,
             category: {
                connect: { cate_id: data.cate_id },
-            },
-            dayofweek: {
-               connect: { day_id: data.day_id },
             },
             user: {
                connect: { user_id: data.user_id },

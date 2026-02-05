@@ -21,17 +21,17 @@ export default class TaskController {
 
    async createTask(req: Request, res: Response): Promise<Response> {
       try {
-         let { task_name, task_priority, day_id, cate_id, task_status } =
+         let { task_name, task_priority, cate_id, task_status, task_day } =
             req.body as TaskReqParamsCreateDto;
 
-         const id = req.user.user_id;
+         const user_id = req.user.user_id;
          const obj: TaskInputDto = {
             task_name,
             task_status,
             task_priority,
-            user_id: id,
+            task_day,
+            user_id,
             cate_id,
-            day_id,
          };
 
          const created: Task = await this.taskServ.createTask(obj);
@@ -123,25 +123,18 @@ export default class TaskController {
 
    async updateTask(req: Request, res: Response): Promise<Response> {
       try {
-         let {
-            task_id,
-            task_name,
-            task_priority,
-            day_id,
-            cate_id,
-            task_status,
-         } = req.body as TaskReqParamsUpdateDto;
+         let { task_id, task_name, task_priority, cate_id, task_status } =
+            req.body as TaskReqParamsUpdateDto;
 
-         const id = req.user.user_id;
+         const user_id = req.user.user_id;
 
          const obj: TaskUpdateDto = {
             task_id,
             task_name,
             task_status,
             task_priority,
-            user_id: id,
+            user_id,
             cate_id,
-            day_id,
          };
 
          const created: Task = await this.taskServ.updateTask(obj);

@@ -29,14 +29,11 @@ model Task{
   task_name String
   task_priority String
   task_status String
-
+  task_day DateTime
   cate_id Int
   category Category @relation(fields: [cate_id], references: [cate_id])
 
-  day_id Int
-  dayofweek DayOfWeek @relation(fields: [day_id], references: [day_id])
 
-  
   user_id Int
   user User @relation(fields: [user_id], references: [user_id])
 }
@@ -49,11 +46,4 @@ model Category{
   user_id Int
   user User @relation(fields: [user_id], references: [user_id])
   
-}
-
-model DayOfWeek{
- day_id Int @id @default(autoincrement())
- day_name String
-
- task Task[]
 }
