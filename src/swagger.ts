@@ -42,6 +42,10 @@ const doc = {
          categoryUpdate: {
             cate_id: 1,
             cate_name: "Atividades fisicas"
+         },
+         login: {
+            user_email: "gui@gmail.com",
+            user_pass: "senhaForte123",
          }
       },
       securitySchemes: {
