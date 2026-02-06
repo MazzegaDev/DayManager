@@ -16,3 +16,8 @@
             }
         }
    */ 
+
+
+
+      // #swagger.tags = ['Usuario']
+   // #swagger.summary = 'Cadastra um novo usuario'
