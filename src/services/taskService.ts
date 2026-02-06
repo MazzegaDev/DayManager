@@ -87,10 +87,11 @@ export default class TaskService {
       return list;
    }
 
-   async listPerCategory(cate_id: string | number): Promise<TaskIncludeDto[]> {
-      const id = this.validateId(cate_id);
+   async listPerCategory(cate_id: string | number, user_id: number): Promise<TaskIncludeDto[]> {
+      const idCate = this.validateId(cate_id);
+      const idUser = this.validateId(user_id);
 
-      let list: TaskIncludeDto[] = await this.taskRepo.listPerCategory(id);
+      let list: TaskIncludeDto[] = await this.taskRepo.listPerCategory(idCate, idUser);
 
       if (list.length === 0) {
          throw new AppError("Essa categoria ainda não tem nenhuma tarefa", 404);
@@ -99,17 +100,7 @@ export default class TaskService {
       return list;
    }
 
-   async listPerDay(day_id: string): Promise<TaskIncludeDto[]> {
-      const id = this.validateId(day_id);
 
-      let list: TaskIncludeDto[] = await this.taskRepo.listPerDay(id);
-
-      if (list.length === 0) {
-         throw new AppError("Esse dia ainda não tem nenhuma tarefa", 404);
-      }
-
-      return list;
-   }
 
    async findTaskById(task_id: string): Promise<TaskIncludeDto> {
       const id = this.validateId(task_id);

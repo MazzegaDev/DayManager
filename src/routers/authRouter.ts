@@ -6,17 +6,6 @@ const router = Router();
 const controller = new AuthController();
 const auth = new AuthMiddleware();
 
-router.get("/usuarioLogado", auth.validadeAuth,(req, res) => {
-   // #swagger.tags = ['Login']
-   // #swagger.summary = 'Retorna o usuario logado no sistema'
-   /* #swagger.security = [{
-        "bearerAuth": []
-    }]
-   */
-  controller.returnCurrentUser(req, res);
-});
-
-
 router.post("/login", (req, res) => {
    // #swagger.tags = ['Login']
    // #swagger.summary = 'Se autentifica no sistema'
@@ -34,4 +23,14 @@ router.post("/login", (req, res) => {
         }
    */
    controller.login(req, res);
-})
+});
+
+router.get("/usuarioLogado", auth.validadeAuth, (req, res) => {
+   // #swagger.tags = ['Login']
+   // #swagger.summary = 'Retorna o usuario logado no sistema'
+   /* #swagger.security = [{
+        "bearerAuth": []
+    }]
+   */
+   controller.returnCurrentUser(req, res);
+});

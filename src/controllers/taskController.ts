@@ -10,7 +10,6 @@ import {
    TaskReqParamsUpdateDto,
 } from "../interfaces/taskDTO";
 import { CategoryParams } from "../interfaces/categoryDTO";
-import { dayParams } from "../interfaces/dayDTO";
 
 export default class TaskController {
    private readonly taskServ: TaskService;
@@ -70,25 +69,11 @@ export default class TaskController {
       res: Response,
    ): Promise<Response> {
       try {
-         const { cate_id } = req.params;
+         const { cate_id } = req.params as CategoryParams;
+         const user_id = req.user.user_id;
+
          const list: TaskIncludeDto[] =
-            await this.taskServ.listPerCategory(cate_id);
-
-         return res.status(200).json(list);
-      } catch (error: any) {
-         console.log(error);
-         if (error.statusCode) {
-            return res.status(error.statusCode).json(error.message);
-         }
-
-         return res.status(500).json({ msg: "Erro interno" });
-      }
-   }
-
-   async listPerDay(req: Request<dayParams>, res: Response): Promise<Response> {
-      try {
-         const { day_id } = req.params;
-         const list: TaskIncludeDto[] = await this.taskServ.listPerDay(day_id);
+            await this.taskServ.listPerCategory(cate_id, user_id);
 
          return res.status(200).json(list);
       } catch (error: any) {

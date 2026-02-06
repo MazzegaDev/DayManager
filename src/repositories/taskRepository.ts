@@ -38,9 +38,9 @@ export default class TaskRepository {
       });
    }
 
-   async listPerCategory(cate_id: number): Promise<TaskIncludeDto[]> {
+   async listPerCategory(cate_id: number, user_id: number): Promise<TaskIncludeDto[]> {
       return await this.prisma.task.findMany({
-         where: { cate_id: cate_id },
+         where: { cate_id: cate_id, AND: [{user_id: user_id}] },
          include: {
             category: true,
             user: true,
@@ -48,15 +48,7 @@ export default class TaskRepository {
       });
    }
 
-   async listPerDay(task_day: Date): Promise<TaskIncludeDto[]> {
-      return await this.prisma.task.findMany({
-         where: { task_day: task_day },
-         include: {
-            category: true,
-            user: true,
-         },
-      });
-   }
+
 
    async findTaskById(task_id: number): Promise<TaskIncludeDto | null> {
       return await this.prisma.task.findUnique({

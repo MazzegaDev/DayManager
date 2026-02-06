@@ -3,11 +3,11 @@ export interface CategoryInputDto {
    user_id: number;
 }
 
-export interface CategoryReqCreateData{
+export interface CategoryReqCreateData {
    cate_name: string;
 }
 
-export interface CategoryReqUpdateData{
+export interface CategoryReqUpdateData {
    cate_id: number;
    cate_name?: string;
 }
@@ -21,3 +21,4 @@ export interface CategoryUpdateDto {
 export interface CategoryParams {
    cate_id: string;
 }
+
