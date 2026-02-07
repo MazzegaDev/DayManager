@@ -16,7 +16,7 @@ export default class CategoryRepository {
       });
    }
 
-   async listCategory(user_id: number): Promise<Category[]> {
+   async listUserCategory(user_id: number): Promise<Category[]> {
       return await this.prisma.category.findMany({
          where: { user_id: user_id },
       });

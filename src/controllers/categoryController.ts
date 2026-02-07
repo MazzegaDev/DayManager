@@ -42,13 +42,13 @@ export default class CategoryController {
    }
 
    async listUserCategory(
-      req: Request<CategoryParams>,
+      req: Request,
       res: Response,
    ): Promise<Response> {
       try {
-         const { cate_id } = req.params as CategoryParams;
+         const user_id = req.user.user_id;
 
-         const list: Category[] = await this.cateServ.listCategories(cate_id);
+         const list: Category[] = await this.cateServ.listUserCategories(user_id);
 
          return res.status(200).json(list);
       } catch (error: any) {

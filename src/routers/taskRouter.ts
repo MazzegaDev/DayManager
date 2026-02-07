@@ -1,4 +1,4 @@
-import { Router, Request, Response, RequestHandler } from "express";
+import { Router, Request} from "express";
 import TaskController from "../controllers/taskController";
 import AuthMiddleware from "../middleware/authMiddleware";
 import { CategoryParams } from "../interfaces/categoryDTO";

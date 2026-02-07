@@ -49,15 +49,15 @@ export default class CategoryService {
       return category;
    }
 
-   async listCategories(user_id: string): Promise<Category[]> {
-      const id = this.validateId(user_id);
+   async listUserCategories(user_id: number): Promise<Category[]> {
 
-      const user: User | null = await this.userRepo.findUserById(id);
+
+      const user: User | null = await this.userRepo.findUserById(user_id);
       if (!user) {
          throw new AppError("Usuario não encontrado", 404);
       }
 
-      const list: Category[] = await this.catRepo.listCategory(id);
+      const list: Category[] = await this.catRepo.listUserCategory(user_id);
 
       if (list.length === 0) {
          throw new AppError(
