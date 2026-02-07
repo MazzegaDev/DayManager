@@ -83,3 +83,5 @@ router.delete("/deletarCategoria/:cate_id", auth.validadeAuth, (req, res) => {
 
 	controller.deleteCategory(req as unknown as Request<CategoryParams>, res);
 });
+
+export default router;

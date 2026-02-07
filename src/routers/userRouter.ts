@@ -90,3 +90,5 @@ router.delete("/deletarUsuario/:user_id", auth.validadeAuth, (req, res) => {
 
 	controller.deleteUser(req as unknown as Request<UserParams>, res);
 });
+
+export default router;

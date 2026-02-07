@@ -1,7 +1,7 @@
-import server from "./app";
+import app from "./app";
 
 const PORT: number = 5000;
 
-server.listen(PORT, () => {
-   console.log(`http://localhost:${PORT}`);
+app.listen(PORT, () => {
+	console.log(`http://localhost:${PORT}`);
 });

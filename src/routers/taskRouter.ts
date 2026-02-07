@@ -1,4 +1,4 @@
-import { Router, Request} from "express";
+import { Router, Request } from "express";
 import TaskController from "../controllers/taskController";
 import AuthMiddleware from "../middleware/authMiddleware";
 import { CategoryParams } from "../interfaces/categoryDTO";
@@ -97,3 +97,5 @@ router.delete("/deletarTarefa/:task_id", (req, res) => {
 
 	controller.deleteTask(req as unknown as Request<TaskParams>, res);
 });
+
+export default router;

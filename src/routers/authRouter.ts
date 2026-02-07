@@ -34,3 +34,5 @@ router.get("/usuarioLogado", auth.validadeAuth, (req, res) => {
    */
 	controller.returnCurrentUser(req, res);
 });
+
+export default router;
