@@ -5,126 +5,121 @@ import CategoryRepository from "../repositories/categoryRepository";
 import UserRepository from "../repositories/userRepository";
 
 export default class CategoryService {
-   readonly catRepo: CategoryRepository;
-   readonly userRepo: UserRepository;
+	readonly catRepo: CategoryRepository;
+	readonly userRepo: UserRepository;
 
-   constructor() {
-      this.catRepo = new CategoryRepository();
-      this.userRepo = new UserRepository();
-   }
+	constructor() {
+		this.catRepo = new CategoryRepository();
+		this.userRepo = new UserRepository();
+	}
 
-   async createCategory(data: CategoryInputDto): Promise<Category> {
-      const { cate_name, user_id } = data;
+	async createCategory(data: CategoryInputDto): Promise<Category> {
+		const { cate_name, user_id } = data;
 
-      if (!cate_name.trim()) {
-         throw new AppError("Informe um nome valido", 400);
-      }
+		if (!cate_name.trim()) {
+			throw new AppError("Informe um nome valido", 400);
+		}
 
-      const user: User | null = await this.userRepo.findUserById(user_id);
-      if (!user) {
-         throw new AppError("Usuario não encontrado", 404);
-      }
+		const user: User | null = await this.userRepo.findUserById(user_id);
+		if (!user) {
+			throw new AppError("Usuario não encontrado", 404);
+		}
 
-      const obj: CategoryInputDto = {
-         cate_name,
-         user_id,
-      };
+		const obj: CategoryInputDto = {
+			cate_name,
+			user_id,
+		};
 
-      const created: Category = await this.catRepo.createCategory(obj);
-      if (!created) {
-         throw new AppError("Erro ao criar nova categoria", 500);
-      }
+		const created: Category = await this.catRepo.createCategory(obj);
+		if (!created) {
+			throw new AppError("Erro ao criar nova categoria", 500);
+		}
 
-      return created;
-   }
+		return created;
+	}
 
-   async findById(cate_id: string): Promise<Category> {
-      const id = this.validateId(cate_id);
+	async findById(cate_id: string): Promise<Category> {
+		const id = this.validateId(cate_id);
 
-      const category: Category | null = await this.catRepo.findById(id);
-      if (!category) {
-         throw new AppError("Categoria não encontrada", 404);
-      }
+		const category: Category | null = await this.catRepo.findById(id);
+		if (!category) {
+			throw new AppError("Categoria não encontrada", 404);
+		}
 
-      return category;
-   }
+		return category;
+	}
 
-   async listUserCategories(user_id: number): Promise<Category[]> {
+	async listUserCategories(user_id: number): Promise<Category[]> {
+		const user: User | null = await this.userRepo.findUserById(user_id);
+		if (!user) {
+			throw new AppError("Usuario não encontrado", 404);
+		}
 
+		const list: Category[] = await this.catRepo.listUserCategory(user_id);
 
-      const user: User | null = await this.userRepo.findUserById(user_id);
-      if (!user) {
-         throw new AppError("Usuario não encontrado", 404);
-      }
+		if (list.length === 0) {
+			throw new AppError("O usuario ainda não tem nenhuma categoria cadastrada", 404);
+		}
 
-      const list: Category[] = await this.catRepo.listUserCategory(user_id);
+		return list;
+	}
 
-      if (list.length === 0) {
-         throw new AppError(
-            "O usuario ainda não tem nenhuma categoria cadastrada",
-            404,
-         );
-      }
+	async updateCategory(data: CategoryUpdateDto): Promise<Category> {
+		const { cate_id, cate_name, user_id } = data;
 
-      return list;
-   }
+		const category: Category | null = await this.catRepo.findById(cate_id);
+		if (!category) {
+			throw new AppError("Categoria não encontrada", 404);
+		}
 
-   async updateCategory(data: CategoryUpdateDto): Promise<Category> {
-      const { cate_id, cate_name, user_id } = data;
+		const user: User | null = await this.userRepo.findUserById(user_id);
+		if (!user) {
+			throw new AppError("Usuario não encontrado", 404);
+		}
 
-      const category: Category | null = await this.catRepo.findById(cate_id);
-      if (!category) {
-         throw new AppError("Categoria não encontrada", 404);
-      }
+		if (cate_name != undefined && !cate_name.trim()) {
+			throw new AppError("Informe um nome valido", 400);
+		}
 
-      const user: User | null = await this.userRepo.findUserById(user_id);
-      if (!user) {
-         throw new AppError("Usuario não encontrado", 404);
-      }
+		const obj: CategoryUpdateDto = {
+			cate_id,
+			cate_name,
+			user_id,
+		};
 
-      if (cate_name != undefined && !cate_name.trim()) {
-         throw new AppError("Informe um nome valido", 400);
-      }
+		const updated: Category = await this.catRepo.updateCategory(obj);
+		if (!updated) {
+			throw new AppError("Erro ao atualizar dados da categoria", 404);
+		}
 
-      const obj: CategoryUpdateDto = {
-         cate_id,
-         cate_name,
-         user_id,
-      };
+		return updated;
+	}
 
-      const updated: Category = await this.catRepo.updateCategory(obj);
-      if (!updated) {
-         throw new AppError("Erro ao atualizar dados da categoria", 404);
-      }
+	async deleteCategory(cate_id: string): Promise<Category> {
+		const id = this.validateId(cate_id);
 
-      return updated;
-   }
+		const category: Category | null = await this.catRepo.findById(id);
+		if (!category) {
+			throw new AppError("Categoria não encontrada", 404);
+		}
 
-   async deleteCategory(cate_id: string): Promise<Category> {
-      const id = this.validateId(cate_id);
+		const deleted: Category = await this.catRepo.deleteCategory(id);
+		if (!deleted) {
+			throw new AppError("Erro ao deletar categoria", 500);
+		}
 
-      const category: Category | null = await this.catRepo.findById(id);
-      if (!category) {
-         throw new AppError("Categoria não encontrada", 404);
-      }
+		return deleted;
+	}
 
-      const deleted: Category = await this.catRepo.deleteCategory(id);
-      if (!deleted) {
-         throw new AppError("Erro ao deletar categoria", 500);
-      }
+	validateId(params: number | string): number {
+		if (typeof params === "number") {
+			return params;
+		}
 
-      return deleted;
-   }
-
-   validateId(params: number | string): number {
-      if (typeof params === "number") {
-         return params;
-      }
-
-      const id = parseInt(params);
-      if (isNaN(id)) {
-         throw new AppError("Informe um numero", 400);
-      }
-      return id;
-   }
+		const id = parseInt(params);
+		if (isNaN(id)) {
+			throw new AppError("Informe um numero", 400);
+		}
+		return id;
+	}
 }
