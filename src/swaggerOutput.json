@@ -1,0 +1,705 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API",
+    "description": "API REST",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "paths": {
+    "tarefa/novaTarefa": {
+      "post": {
+        "tags": [
+          "Tarefa"
+        ],
+        "summary": "Cadastra uma nova tarefa",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/task"
+              }
+            }
+          }
+        }
+      }
+    },
+    "tarefa/listarTarefas": {
+      "get": {
+        "tags": [
+          "Tarefa"
+        ],
+        "summary": "Lista as tarefas desse usuario",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "tarefa/listarTarefasPorCategoria/{cate_id}": {
+      "get": {
+        "tags": [
+          "Tarefa"
+        ],
+        "summary": "Lista as tarefas por categoria desse usuario",
+        "description": "",
+        "parameters": [
+          {
+            "name": "cate_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "tarefa/listarTarefasPorId/{task_id}": {
+      "get": {
+        "tags": [
+          "Tarefa"
+        ],
+        "summary": "Procura uma tarefa por id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "tarefa/alterarTarefa": {
+      "put": {
+        "tags": [
+          "Tarefa"
+        ],
+        "summary": "Altera uma tarefa",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/taskUpdate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "tarefa/deletarTarefa/{task_id}": {
+      "delete": {
+        "tags": [
+          "Tarefa"
+        ],
+        "summary": "Deleta uma tarefa",
+        "description": "",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "usuario/novoUsuario": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Cadastra um novo usuario",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        }
+      }
+    },
+    "usuario/listarUsuario": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Lista todos os usuarios",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "usuario/listarUsuarioPorId/{user_id}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Busca um usuario por id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "usuario/listarUsuarioPorEmail/{user_email}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Busca um usuario por email",
+        "description": "",
+        "parameters": [
+          {
+            "name": "user_email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "usuario/alterarDadosUsuario": {
+      "put": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Altera um usuario",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userUpdate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "usuario/deletarUsuario/{user_id}": {
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Deleta um usuario",
+        "description": "",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "categoria/novaCategoria": {
+      "post": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Cria uma categoria",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/category"
+              }
+            }
+          }
+        }
+      }
+    },
+    "categoria/listarCategorias": {
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Lista todas as categoria do usuario",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "categoria/listarCategoriaPorId/{cate_id}": {
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Busca uma categoria por id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "cate_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "categoria/alterarCategoria": {
+      "put": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Altera uma categoria",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categoryUpdate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "categoria/deletarCategoria/{cate_id}": {
+      "delete": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Deleta uma categoria",
+        "description": "",
+        "parameters": [
+          {
+            "name": "cate_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "login/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Se autentifica no sistema",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              }
+            }
+          }
+        }
+      }
+    },
+    "login/usuarioLogado": {
+      "get": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Retorna o usuario logado no sistema",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "task": {
+        "type": "object",
+        "properties": {
+          "task_name": {
+            "type": "string",
+            "example": "academia"
+          },
+          "task_priority": {
+            "type": "string",
+            "example": "alta"
+          },
+          "cate_id": {
+            "type": "number",
+            "example": 1
+          },
+          "task_day": {
+            "type": "string",
+            "example": "02/05/2025"
+          }
+        }
+      },
+      "taskUpdate": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "number",
+            "example": 1
+          },
+          "task_name": {
+            "type": "string",
+            "example": "academia"
+          },
+          "task_priority": {
+            "type": "string",
+            "example": "alta"
+          },
+          "cate_id": {
+            "type": "number",
+            "example": 1
+          },
+          "task_day": {
+            "type": "string",
+            "example": "02/05/2025"
+          }
+        }
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "example": "gui@gmail.com"
+          },
+          "user_name": {
+            "type": "string",
+            "example": "Guilherme"
+          },
+          "user_pass": {
+            "type": "string",
+            "example": "senhaForte123"
+          }
+        }
+      },
+      "userUpdate": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "number",
+            "example": 1
+          },
+          "user_email": {
+            "type": "string",
+            "example": "gui@gmail.com"
+          },
+          "user_name": {
+            "type": "string",
+            "example": "Guilherme"
+          },
+          "user_pass": {
+            "type": "string",
+            "example": "senhaForte123"
+          }
+        }
+      },
+      "category": {
+        "type": "object",
+        "properties": {
+          "cate_name": {
+            "type": "string",
+            "example": "Atividades fisicas"
+          }
+        }
+      },
+      "categoryUpdate": {
+        "type": "object",
+        "properties": {
+          "cate_id": {
+            "type": "number",
+            "example": 1
+          },
+          "cate_name": {
+            "type": "string",
+            "example": "Atividades fisicas"
+          }
+        }
+      },
+      "login": {
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "type": "string",
+            "example": "gui@gmail.com"
+          },
+          "user_pass": {
+            "type": "string",
+            "example": "senhaForte123"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
