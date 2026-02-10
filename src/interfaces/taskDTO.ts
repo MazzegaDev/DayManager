@@ -66,5 +66,14 @@ export interface TaskParams {
 }
 
 export type TaskIncludeDto = Prisma.TaskGetPayload<{
-   include: { category: true; user: true };
+	include: {
+		category: true;
+		user: {
+			select: {
+				user_id: true;
+				user_name: true;
+				user_email: true;
+			};
+		};
+	};
 }>;

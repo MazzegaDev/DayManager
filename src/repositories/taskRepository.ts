@@ -33,7 +33,13 @@ export default class TaskRepository {
 			where: { user_id: user_id },
 			include: {
 				category: true,
-				user: true,
+				user: {
+					select: {
+						user_id: true,
+						user_name: true,
+						user_email: true,
+					},
+				},
 			},
 		});
 	}
@@ -43,7 +49,13 @@ export default class TaskRepository {
 			where: { cate_id: cate_id, AND: [{ user_id: user_id }] },
 			include: {
 				category: true,
-				user: true,
+				user: {
+					select: {
+						user_id: true,
+						user_name: true,
+						user_email: true,
+					},
+				},
 			},
 		});
 	}
@@ -53,8 +65,13 @@ export default class TaskRepository {
 			where: { task_id: task_id },
 			include: {
 				category: true,
-
-				user: true,
+				user: {
+					select: {
+						user_id: true,
+						user_name: true,
+						user_email: true,
+					},
+				},
 			},
 		});
 	}
