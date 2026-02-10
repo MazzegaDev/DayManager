@@ -7,13 +7,10 @@ const router = Router();
 const controller = new UserController();
 const auth = new AuthMiddleware();
 
-router.post("/novoUsuario", auth.validadeAuth, (req, res) => {
+router.post("/novoUsuario", (req, res) => {
 	// #swagger.tags = ['Usuario']
 	// #swagger.summary = 'Cadastra um novo usuario'
-	/* #swagger.security = [{
-        "bearerAuth": []
-    }]
-   */
+
 	/*
         #swagger.requestBody = {
             required: true,

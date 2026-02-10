@@ -99,8 +99,8 @@ export default class TaskController {
 			let { task_id, task_name, task_priority, cate_id, task_status } =
 				req.body as TaskReqParamsUpdateDto;
 
-			const user_id = req.user.user_id;
-
+			let user_id = req.user.user_id;
+			console.log(req.user.user_id);
 			const obj: TaskUpdateDto = {
 				task_id,
 				task_name,
@@ -109,7 +109,7 @@ export default class TaskController {
 				user_id,
 				cate_id,
 			};
-
+			
 			const created: Task = await this.taskServ.updateTask(obj);
 
 			return res.status(201).json({ msg: "Dados da tarefa alterados!", data: created });

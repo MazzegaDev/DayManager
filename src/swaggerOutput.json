@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "tarefa/novaTarefa": {
+    "/tarefa/novaTarefa": {
       "post": {
         "tags": [
           "Tarefa"
@@ -46,7 +46,7 @@
         }
       }
     },
-    "tarefa/listarTarefas": {
+    "/tarefa/listarTarefas": {
       "get": {
         "tags": [
           "Tarefa"
@@ -71,7 +71,7 @@
         ]
       }
     },
-    "tarefa/listarTarefasPorCategoria/{cate_id}": {
+    "/tarefa/listarTarefasPorCategoria/{cate_id}": {
       "get": {
         "tags": [
           "Tarefa"
@@ -100,7 +100,7 @@
         ]
       }
     },
-    "tarefa/listarTarefasPorId/{task_id}": {
+    "/tarefa/listarTarefasPorId/{task_id}": {
       "get": {
         "tags": [
           "Tarefa"
@@ -129,7 +129,7 @@
         ]
       }
     },
-    "tarefa/alterarTarefa": {
+    "/tarefa/alterarTarefa": {
       "put": {
         "tags": [
           "Tarefa"
@@ -139,6 +139,9 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"
@@ -161,7 +164,7 @@
         }
       }
     },
-    "tarefa/deletarTarefa/{task_id}": {
+    "/tarefa/deletarTarefa/{task_id}": {
       "delete": {
         "tags": [
           "Tarefa"
@@ -190,7 +193,7 @@
         ]
       }
     },
-    "usuario/novoUsuario": {
+    "/usuario/novoUsuario": {
       "post": {
         "tags": [
           "Usuario"
@@ -201,18 +204,10 @@
           "201": {
             "description": "Created"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "500": {
             "description": "Internal Server Error"
           }
         },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -225,7 +220,7 @@
         }
       }
     },
-    "usuario/listarUsuario": {
+    "/usuario/listarUsuario": {
       "get": {
         "tags": [
           "Usuario"
@@ -250,7 +245,7 @@
         ]
       }
     },
-    "usuario/listarUsuarioPorId/{user_id}": {
+    "/usuario/listarUsuarioPorId/{user_id}": {
       "get": {
         "tags": [
           "Usuario"
@@ -279,7 +274,7 @@
         ]
       }
     },
-    "usuario/listarUsuarioPorEmail/{user_email}": {
+    "/usuario/listarUsuarioPorEmail/{user_email}": {
       "get": {
         "tags": [
           "Usuario"
@@ -308,7 +303,7 @@
         ]
       }
     },
-    "usuario/alterarDadosUsuario": {
+    "/usuario/alterarDadosUsuario": {
       "put": {
         "tags": [
           "Usuario"
@@ -338,7 +333,7 @@
         }
       }
     },
-    "usuario/deletarUsuario/{user_id}": {
+    "/usuario/deletarUsuario/{user_id}": {
       "delete": {
         "tags": [
           "Usuario"
@@ -367,7 +362,7 @@
         ]
       }
     },
-    "categoria/novaCategoria": {
+    "/categoria/novaCategoria": {
       "post": {
         "tags": [
           "Categoria"
@@ -402,7 +397,7 @@
         }
       }
     },
-    "categoria/listarCategorias": {
+    "/categoria/listarCategorias": {
       "get": {
         "tags": [
           "Categoria"
@@ -427,7 +422,7 @@
         ]
       }
     },
-    "categoria/listarCategoriaPorId/{cate_id}": {
+    "/categoria/listarCategoriaPorId/{cate_id}": {
       "get": {
         "tags": [
           "Categoria"
@@ -456,7 +451,7 @@
         ]
       }
     },
-    "categoria/alterarCategoria": {
+    "/categoria/alterarCategoria": {
       "put": {
         "tags": [
           "Categoria"
@@ -491,7 +486,7 @@
         }
       }
     },
-    "categoria/deletarCategoria/{cate_id}": {
+    "/categoria/deletarCategoria/{cate_id}": {
       "delete": {
         "tags": [
           "Categoria"
@@ -520,7 +515,7 @@
         ]
       }
     },
-    "login/login": {
+    "/login/login": {
       "post": {
         "tags": [
           "Login"
@@ -547,7 +542,7 @@
         }
       }
     },
-    "login/usuarioLogado": {
+    "/login/usuarioLogado": {
       "get": {
         "tags": [
           "Login"
@@ -610,6 +605,10 @@
           "task_priority": {
             "type": "string",
             "example": "alta"
+          },
+          "task_status": {
+            "type": "string",
+            "example": "Pendente | Finalizado"
           },
           "cate_id": {
             "type": "number",

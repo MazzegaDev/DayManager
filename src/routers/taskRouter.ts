@@ -64,7 +64,7 @@ router.get("/listarTarefasPorId/:task_id", auth.validadeAuth, (req, res) => {
 	controller.findTaskById(req as unknown as Request<TaskParams>, res);
 });
 
-router.put("/alterarTarefa", (req, res) => {
+router.put("/alterarTarefa", auth.validadeAuth, (req, res) => {
 	// #swagger.tags = ['Tarefa']
 	// #swagger.summary = 'Altera uma tarefa'
 	/* #swagger.security = [{
@@ -87,7 +87,7 @@ router.put("/alterarTarefa", (req, res) => {
 	controller.updateTask(req, res);
 });
 
-router.delete("/deletarTarefa/:task_id", (req, res) => {
+router.delete("/deletarTarefa/:task_id", auth.validadeAuth, (req, res) => {
 	// #swagger.tags = ['Tarefa']
 	// #swagger.summary = 'Deleta uma tarefa'
 	/* #swagger.security = [{

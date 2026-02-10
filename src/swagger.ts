@@ -22,6 +22,7 @@ const doc = {
             task_id: 1,
             task_name: "academia",
             task_priority: "alta",
+            task_status: "Pendente | Finalizado",
             cate_id: 1,
             task_day: "02/05/2025",
          },

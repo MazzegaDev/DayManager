@@ -14,9 +14,9 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("tarefa", taskRouter);
-app.use("usuario", userRouter);
-app.use("categoria", categoryRouter);
-app.use("login", authRouter);
+app.use("/tarefa", taskRouter);
+app.use("/usuario", userRouter);
+app.use("/categoria", categoryRouter);
+app.use("/login", authRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 export default app;
